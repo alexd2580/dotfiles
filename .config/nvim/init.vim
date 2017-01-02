@@ -57,6 +57,10 @@ Plug 'tpope/vim-surround'
 " https://github.com/rust-lang/rust.vim
 Plug 'rust-lang/rust.vim'
 
+" Typescript language support
+" https://github.com/leafgarland/typescript-vim
+Plug 'leafgarland/typescript-vim'
+
 call plug#end()
 
 set t_Co=256            " set 256 color
