@@ -63,6 +63,10 @@ Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
+nnoremap <F9> :bp<CR>
+nnoremap <F10> :bn<CR>
+nnoremap <F12> :bd<CR>
+
 set t_Co=256            " set 256 color
 colorscheme gruvbox     " define syntax color scheme
 set background=dark     " adjust vim for dark colors 
