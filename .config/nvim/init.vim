@@ -15,7 +15,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " CtrlP matcher (enhancer)
 " Execute manually: PY3=ON ./install.sh
 " Requires packages:
-" ag, the_silver_searcher
+" ag, the_silver_searcher, python-neovim
 " https://github.com/nixprime/cpsm
 Plug 'nixprime/cpsm', { 'do': 'PY3=ON ./install.sh' }
 
