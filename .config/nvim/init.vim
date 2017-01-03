@@ -61,11 +61,11 @@ Plug 'rust-lang/rust.vim'
 " https://github.com/leafgarland/typescript-vim
 Plug 'leafgarland/typescript-vim'
 
-call plug#end()
+" Directory explorer
+" https://github.com/scrooloose/nerdtree
+Plug 'scrooloose/nerdtree'
 
-nnoremap <F9> :bp<CR>
-nnoremap <F10> :bn<CR>
-nnoremap <F12> :bd<CR>
+call plug#end()
 
 set t_Co=256            " set 256 color
 colorscheme gruvbox     " define syntax color scheme
@@ -92,6 +92,10 @@ set smartcase           " upper-case sensitive search
 
 " turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
+
+nnoremap <F9> :bp<CR>
+nnoremap <F10> :bn<CR>
+nnoremap <F12> :bd<CR>
 
 " don't create a swap file
 set noswapfile
@@ -127,7 +131,7 @@ let g:formatters_rust = ['rustformat']
 " use mixed search per default
 let g:ctrlp_cmd = 'CtrlPMixed'
 " map search in directory to ctrl+o
-nnoremap <C-o> :CtrlP<space>
+" nnoremap <C-o> :CtrlP<space>
 " set custom search command
 let g:ctrlp_user_command = 'ag %s --files-with-matches -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 
@@ -152,3 +156,6 @@ nnoremap <silent> <F8> :TagbarToggle<CR>
 " set the rust search path
 let g:ycm_rust_src_path = '/usr/src/rust/src'
 
+" NERDTree
+" map nerdtreetoggle to ctrl+o
+nnoremap <C-o> :NERDTreeToggle<CR>
