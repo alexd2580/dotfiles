@@ -55,9 +55,11 @@ bindkey '^[3;5~' delete-char
 
 bindkey '\e[1~' beginning-of-line
 bindkey '^[OH' beginning-of-line
+bindkey '^[[H' beginning-of-line
 
 bindkey '\e[4~' end-of-line
 bindkey '^[OF' end-of-line
+bindkey '^[[F' end-of-line
 
 # History
 HISTFILE=~/.zsh_history
