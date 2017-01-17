@@ -141,8 +141,10 @@ alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress -r --"
 alias ls='ls -lahF --color=auto'
 alias ll='ls -lahF --color=auto'
 alias la='ls -lahF --color=auto'
+alias l='ls -lahF --color=auto'
 alias grep='grep --color=auto'
 alias sys='sudo systemctl'
+alias :q='exit'
 
 alias svim='sudo vim'
 alias spacman='sudo pacman'
