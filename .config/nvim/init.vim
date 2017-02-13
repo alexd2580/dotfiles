@@ -90,39 +90,43 @@ set list                " show invis characters (out of place chars?)
 set ignorecase          " case-insensitive search
 set smartcase           " upper-case sensitive search
 
-" turn off search highlight
+" Turn off search highlighting.
 nnoremap <leader><space> :nohlsearch<CR>
 
 nnoremap <F9> :bp<CR>
 nnoremap <F10> :bn<CR>
 nnoremap <F12> :bd<CR>
 
-" don't create a swap file
+" Don't create a swap file
 set noswapfile
 
-" explicitly set filetype for .comp files
-" required until https://github.com/tikhomirov/vim-glsl/pull/10 is merged
+" Explicitly set filetype for .comp files.
+" Required until https://github.com/tikhomirov/vim-glsl/pull/10 is merged
 autocmd BufRead,BufNewFile *.comp set filetype=glsl
 
+" Remove trailing whitespaces.
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces
+autocmd BufWritePre * %s/\s\+$//e
+
 " Airline
-" enable powerline
+" Enable powerline
 let g:airline_powerline_fonts = 1
 " display all buffers
 let g:airline#extensions#tabline#enabled = 1
 
 " Autoformat
-" map autoformat
+" Map autoformat
 noremap <leader>f :Autoformat<CR>
-" enable verbose output
+" Enable verbose output
 let g:autoformat_verbosemode=1
-" disable fallback to vim defaults
+" Disable fallback to vim defaults
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 0
-" define formatter tool commands
+" Define formatter tool commands.
 let g:formatdef_clangformat = "'clang-format'"
 let g:formatdef_rustformat= "'/usr/bin/rustfmt --write-mode display'"
-" map file types to formatters
+" Map file types to formatters.
 let g:formatters_opencl = ['clangformat']
 let g:formatters_glsl = ['clangformat']
 let g:formatters_rust = ['rustformat']
