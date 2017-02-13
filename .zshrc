@@ -14,7 +14,6 @@ if ! zgen saved; then
     zgen load robbyrussell/oh-my-zsh plugins/colorize
     zgen load robbyrussell/oh-my-zsh plugins/command-not-found
     zgen load robbyrussell/oh-my-zsh plugins/dircycle # doesn't work =(
-    zgen load robbyrussell/oh-my-zsh plugins/grunt
     zgen load robbyrussell/oh-my-zsh plugins/scd
     zgen load robbyrussell/oh-my-zsh plugins/sudo
     #zgen load robbyrussell/oh-my-zsh plugins/thefuck
@@ -71,7 +70,6 @@ setopt share_history        # share history between session
 setopt extended_history     # special history format with timestamp
 setopt no_hist_beep         # fucking beep
 setopt hist_ignore_space    # ignore entries with leading space
-
 
 # Completion
 setopt complete_in_word     # complete from both ends of a word
@@ -153,6 +151,10 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
+# To rant about how slow (but still unimaginably useful) git*** is.
+alias git='time git'
+
+# Add a hook to play this file on segfaults.
 segfault_hook () {
     if [ $? -eq 139 ]; then
         mpg123 -q ~/.zgen/Scheisssoeee.mp3
