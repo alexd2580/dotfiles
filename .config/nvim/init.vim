@@ -172,7 +172,7 @@ let g:tagbar_type_typescript = {
       \ 'e:enums',
     \ ]
   \ }
-let g:tagbar_type_glsl = g:tagbar_type_c
+
 " YCM
 " set the rust search path
 " let g:ycm_rust_src_path = '/usr/src/rust/src'
