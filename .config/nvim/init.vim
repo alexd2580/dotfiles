@@ -1,15 +1,30 @@
 call plug#begin('~/.config/nvim/plug')
 
-" Status line
-" https://github.com/vim-airline/vim-airline
+" Languages
+Plug 'cespare/vim-toml'
+Plug 'othree/html5.vim'
+Plug 'isRuslan/vim-es6'
+Plug 'mxw/vim-jsx'
+Plug 'tikhomirov/vim-glsl'
+Plug 'rust-lang/rust.vim'
+Plug 'leafgarland/typescript-vim'
+
+" Beauty
 Plug 'bling/vim-airline'
+Plug 'flazz/vim-colorschemes'
+Plug 'luochen1990/rainbow'
 
-" Autoformat tool
-" https://github.com/Chiel92/vim-autoformat
+" Utils
 Plug 'Chiel92/vim-autoformat'
+Plug 'tomtom/tcomment_vim'
+Plug 'majutsushi/tagbar'        " ctags explorer
+Plug 'tpope/vim-repeat'         " Remap . for plugins
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'dyng/ctrlsf.vim'
+" Plug 'scrooloose/nerdtree'
 
-" Fuzzy file finder
-" https://github.com/ctrlpvim/ctrlp.vim
+" Fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
 
 " CtrlP matcher (enhancer)
@@ -17,59 +32,34 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Requires packages:
 " ag, the_silver_searcher, python-neovim
 " https://github.com/nixprime/cpsm
-Plug 'nixprime/cpsm', { 'do': 'PY3=ON ./install.sh' }
+" Plug 'nixprime/cpsm', { 'do': './install.sh' }
 
 " Function navigator for ctrlp
 " https://github.com/tacahiroy/ctrlp-funky
 Plug 'tacahiroy/ctrlp-funky'
 
-" Search tool
-" https://github.com/dyng/ctrlsf.vim
-Plug 'dyng/ctrlsf.vim'
-
-" https://github.com/flazz/vim-colorschemes
-Plug 'flazz/vim-colorschemes'
-
-" Ctags explorer
-" https://github.com/majutsushi/tagbar
-Plug 'majutsushi/tagbar'
-
-" GLSL support
-" https://github.com/tikhomirov/vim-glsl
-Plug 'tikhomirov/vim-glsl'
-
-" File-type sensitive comments
-" https://github.com/tomtom/tcomment_vim
-Plug 'tomtom/tcomment_vim'
-
-" Remap . for plugins
-" https://github.com/tpope/vim-repeat
-Plug 'tpope/vim-repeat'
-
-" Add surroundings
-" https://github.com/tpope/vim-surround
-Plug 'tpope/vim-surround'
+" I DONT KNOW WHAT THIS DOES BUT VIM.
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 " Youcompleteme blahblahblah
-" Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --system-libclang --system-boost --all' }
+" for some reason you need to do this => python2 ./install.py --omnisharp-completer
+" Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --omnisharp-completer' }
 
-" Rust language support
-" https://github.com/rust-lang/rust.vim
-Plug 'rust-lang/rust.vim'
+" Typescript features.
+" Plug 'Quramy/tsuquyomi'
 
-" Typescript language support
-" https://github.com/leafgarland/typescript-vim
-Plug 'leafgarland/typescript-vim'
-
-" Directory explorer
-" https://github.com/scrooloose/nerdtree
-Plug 'scrooloose/nerdtree'
+" Language server.
+" https://github.com/autozimu/LanguageClient-neovim
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'junegunn/fzf'
+" Plug 'roxma/nvim-completion-manager'
+" Plug 'Shougo/echodoc.vim'
 
 call plug#end()
 
 set t_Co=256            " set 256 color
 colorscheme gruvbox     " define syntax color scheme
-set background=dark     " adjust vim for dark colors 
+set background=dark     " adjust vim for dark colors
 set cursorline          " show current cursor line
 set cursorcolumn        " show current cursor column
 set number              " show line numbers
@@ -89,47 +79,50 @@ set smarttab            " remember indent
 set list                " show invis characters (out of place chars?)
 set ignorecase          " case-insensitive search
 set smartcase           " upper-case sensitive search
+set mouse=a             " mouse support
 
-" Turn off search highlighting.
+" Enable Rainbow.
+let g:rainbow_active = 1
+autocmd VimEnter * RainbowToggle
+
+" Turn off search highlight.
 nnoremap <leader><space> :nohlsearch<CR>
 
 nnoremap <F9> :bp<CR>
 nnoremap <F10> :bn<CR>
 nnoremap <F12> :bd<CR>
 
-" Don't create a swap file
+" don't create a swap file
 set noswapfile
 
-" Explicitly set filetype for .comp files.
-" Required until https://github.com/tikhomirov/vim-glsl/pull/10 is merged
+" explicitly set filetype for .comp files
+" required until https://github.com/tikhomirov/vim-glsl/pull/10 is merged
 autocmd BufRead,BufNewFile *.comp set filetype=glsl
 
-" Remove trailing whitespaces.
-" http://vim.wikia.com/wiki/Remove_unwanted_spaces
 autocmd BufWritePre * %s/\s\+$//e
 
 " Airline
-" Enable powerline
+" enable powerline
 let g:airline_powerline_fonts = 1
 " display all buffers
 let g:airline#extensions#tabline#enabled = 1
 
 " Autoformat
-" Map autoformat
+" map autoformat
 noremap <leader>f :Autoformat<CR>
-" Enable verbose output
+" enable verbose output
 let g:autoformat_verbosemode=1
-" Disable fallback to vim defaults
+" disable fallback to vim defaults
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 0
-" Define formatter tool commands.
+" define formatter tool commands
 let g:formatdef_clangformat = "'clang-format'"
-let g:formatdef_rustformat= "'/usr/bin/rustfmt --write-mode display'"
-" Map file types to formatters.
+" let g:formatdef_rustformat= "'/usr/bin/rustfmt --write-mode display'"
+" map file types to formatters
 let g:formatters_opencl = ['clangformat']
 let g:formatters_glsl = ['clangformat']
-let g:formatters_rust = ['rustformat']
+" let g:formatters_rust = ['rustformat']
 
 " CtrlP
 " use mixed search per default
@@ -140,7 +133,7 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_user_command = 'ag %s --files-with-matches -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 
 " cpsm
-let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+" let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 
 " ctrlp-funky
 " map funky to ctrl+l
@@ -149,17 +142,65 @@ let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_syntax_highlight = 1
 
 " ctrlsf
-" map ctrlsf to ctrl+k
-nmap <C-k> <Plug>CtrlSFPrompt
+nmap <C-s> <Plug>CtrlSFPrompt
 
 " Tagbar
-" map tagbar to f8
-nnoremap <silent> <F8> :TagbarToggle<CR>
-
+nnoremap <F8> :TagbarToggle<CR>
+let g:tagbar_type_rust = {
+    \ 'ctagstype' : 'rust',
+    \ 'kinds' : [
+        \'T:types,type definitions',
+        \'f:functions,function definitions',
+        \'g:enum,enumeration names',
+        \'s:structure names',
+        \'m:modules,module names',
+        \'c:consts,static constants',
+        \'t:traits,traits',
+        \'i:impls,trait implementations',
+    \]
+    \}
+let g:tagbar_type_typescript = {
+    \ 'ctagstype': 'typescript',
+    \ 'kinds': [
+      \ 'c:classes',
+      \ 'n:modules',
+      \ 'f:functions',
+      \ 'v:variables',
+      \ 'v:varlambdas',
+      \ 'm:members',
+      \ 'i:interfaces',
+      \ 'e:enums',
+    \ ]
+  \ }
+let g:tagbar_type_glsl = g:tagbar_type_c
 " YCM
 " set the rust search path
-let g:ycm_rust_src_path = '/usr/src/rust/src'
+" let g:ycm_rust_src_path = '/usr/src/rust/src'
 
 " NERDTree
 " map nerdtreetoggle to ctrl+o
-nnoremap <C-o> :NERDTreeToggle<CR>
+" nnoremap <C-o> :NERDTreeToggle<CR>
+
+" YCM
+" nnoremap <leader>j :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>k :YcmCompleter GoToReferences<CR>
+" nnoremap <leader>h :YcmCompleter GetType<CR>
+" nnoremap <leader>l :YcmCompleter GetDoc<CR>
+
+" let g:ycm_min_num_of_chars_for_completion = 3
+" let g:ycm_auto_trigger = 1 " Automatically start autocompleting.
+" Vimscript magic
+" if !exists("g:ycm_semantic_triggers")
+"    let g:ycm_semantic_triggers = {}
+" endif
+" let g:ycm_semantic_triggers['typescript'] = ['.']
+" let g:ycm_disable_for_files_larger_than_kb = 1000
+" let g:ycm_goto_buffer_command = 'vertical=split'
+" nnoremap <leader>c :YcmCompleter RefactorRename
+
+" Tsuquyomi
+" let g:tsuquyomi_shortest_import_path = 1 " Relative import paths.
+
+" JSX
+let g:jsx_ext_required = 0
+
