@@ -8,6 +8,8 @@ Plug 'mxw/vim-jsx'
 Plug 'tikhomirov/vim-glsl'
 Plug 'rust-lang/rust.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'ElmCast/elm-vim'
 
 " Beauty
 Plug 'bling/vim-airline'
@@ -24,7 +26,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
 " Plug 'scrooloose/nerdtree'
 
-" Fuzzy finder
+" Fuzzy file finder
+" https://github.com/ctrlpvim/ctrlp.vim
 Plug 'ctrlpvim/ctrlp.vim'
 
 " CtrlP matcher (enhancer)
@@ -63,7 +66,7 @@ set background=dark     " adjust vim for dark colors
 set cursorline          " show current cursor line
 set cursorcolumn        " show current cursor column
 set number              " show line numbers
-set clipboard+=unnamed  " yank and copy to X clipboard
+set clipboard+=unnamedplus " yank and copy to X clipboard
 set shortmess+=I        " disable the welcome screen
 let mapleader = ","     " map leader to ,
 set backspace=2         " full backspacing capabilities
@@ -92,37 +95,35 @@ nnoremap <F9> :bp<CR>
 nnoremap <F10> :bn<CR>
 nnoremap <F12> :bd<CR>
 
-" don't create a swap file
+" Don't create a swap file.
 set noswapfile
 
-" explicitly set filetype for .comp files
-" required until https://github.com/tikhomirov/vim-glsl/pull/10 is merged
+" Explicitly set filetype for .comp files.
+" Required until https://github.com/tikhomirov/vim-glsl/pull/10 is merged
 autocmd BufRead,BufNewFile *.comp set filetype=glsl
 
+" Remove trailing whitespaces.
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces
 autocmd BufWritePre * %s/\s\+$//e
 
 " Airline
-" enable powerline
+" Enable powerline.
 let g:airline_powerline_fonts = 1
 " display all buffers
 let g:airline#extensions#tabline#enabled = 1
 
 " Autoformat
-" map autoformat
 noremap <leader>f :Autoformat<CR>
-" enable verbose output
 let g:autoformat_verbosemode=1
-" disable fallback to vim defaults
+" Disable fallback to vim defaults
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 0
-" define formatter tool commands
+" Define formatter tool commands.
 let g:formatdef_clangformat = "'clang-format'"
-" let g:formatdef_rustformat= "'/usr/bin/rustfmt --write-mode display'"
-" map file types to formatters
+" Map file types to formatters.
 let g:formatters_opencl = ['clangformat']
 let g:formatters_glsl = ['clangformat']
-" let g:formatters_rust = ['rustformat']
 
 " CtrlP
 " use mixed search per default
@@ -134,6 +135,10 @@ let g:ctrlp_user_command = 'ag %s --files-with-matches -i --nocolor --nogroup --
 
 " cpsm
 " let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+let g:ctrlp_use_caching = 0
+
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
 
 " ctrlp-funky
 " map funky to ctrl+l
@@ -142,7 +147,7 @@ let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_syntax_highlight = 1
 
 " ctrlsf
-nmap <C-s> <Plug>CtrlSFPrompt
+nmap <C-k> <Plug>CtrlSFPrompt
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR>
@@ -174,11 +179,11 @@ let g:tagbar_type_typescript = {
   \ }
 
 " YCM
-" set the rust search path
+" Set the rust search path.
 " let g:ycm_rust_src_path = '/usr/src/rust/src'
 
 " NERDTree
-" map nerdtreetoggle to ctrl+o
+" Map nerdtreetoggle to ctrl+i.
 " nnoremap <C-o> :NERDTreeToggle<CR>
 
 " YCM
@@ -204,3 +209,6 @@ let g:tagbar_type_typescript = {
 " JSX
 let g:jsx_ext_required = 0
 
+" Elm
+" Don't use the default keybindings.
+let g:elm_setup_keybindings = 0
