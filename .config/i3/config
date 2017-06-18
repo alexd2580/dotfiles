@@ -160,7 +160,7 @@ mode "UnMod" {
 bindsym $mod+q mode "UnMod"
 
 # WALLPAPER
-exec --no-startup-id feh --bg-fill ~/Pictures/Anime/background.jpg
+exec --no-startup-id feh --bg-fill ~/.config/i3/background.png
 
 # SCREENSHOOTER
 bindsym $mod+c exec --no-startup-id xfce4-screenshooter
@@ -179,12 +179,13 @@ bindsym $mod+space exec --no-startup-id /home/sascha/.utils/translit/translateAl
 bindsym $mod+del exec --no-startup-id /home/sascha/.utils/translit/translateSelection.sh
 
 # TRAYER
-bindsym $mod+t exec /home/sascha/.utils/statorange/toggle_trayer.sh
+# bindsym $mod+t exec /home/sascha/.utils/statorange/toggle_trayer.sh
 
 ### Startup jobs (move to unit files?)
+exec --no-startup-id xcompmgr -cf -I 0.1 -O 0.1
 
-# Start statorange.
-exec /home/sascha/.utils/statorange/launcher.sh > /home/sascha/.utils/statorange/log/launcher.log
+bar {
+    i3bar_command statorange_launcher
+}
 
-# Start i3 locked.
-exec i3lock -fl
+exec --no-startup-id i3lock -eln -i ~/.config/i3/background.png

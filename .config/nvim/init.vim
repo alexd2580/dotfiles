@@ -24,6 +24,7 @@ Plug 'tpope/vim-repeat'         " Remap . for plugins
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
+Plug 'airblade/vim-gitgutter'
 " Plug 'scrooloose/nerdtree'
 
 " Fuzzy file finder
@@ -60,6 +61,7 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 call plug#end()
 
+set updatetime=2000
 set t_Co=256            " set 256 color
 colorscheme gruvbox     " define syntax color scheme
 set background=dark     " adjust vim for dark colors
