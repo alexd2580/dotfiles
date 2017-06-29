@@ -158,6 +158,8 @@ alias mv='mv -i'
 
 alias :q=exit
 
+alias k='k --no-vcs -Ah'
+
 segfault_hook () {
     if [ $? -eq 139 ]; then
         mpg123 -q ~/.zgen/Scheisssoeee.mp3
