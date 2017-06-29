@@ -8,7 +8,7 @@ source "$HOME/.zgen/zgen.zsh" > /dev/null
 if ! zgen saved; then
     echo "Creating a zgen save"
 
-    zgen load robbyrussell/oh-my-zsh plugins/colored-man
+    zgen load robbyrussell/oh-my-zsh plugins/colored-man-pages
     zgen load robbyrussell/oh-my-zsh plugins/cabal
     zgen load robbyrussell/oh-my-zsh plugins/catimg
     zgen load robbyrussell/oh-my-zsh plugins/colorize
