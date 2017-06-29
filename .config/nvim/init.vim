@@ -93,8 +93,8 @@ autocmd VimEnter * RainbowToggle
 " Turn off search highlight.
 nnoremap <leader><space> :nohlsearch<CR>
 
-nnoremap <F9> :bp<CR>
-nnoremap <F10> :bn<CR>
+nnoremap <C-PageUp> :bp<CR>
+nnoremap <C-PageDown> :bn<CR>
 nnoremap <F12> :bd<CR>
 
 " Don't create a swap file.
