@@ -12,8 +12,6 @@ if ! zgen saved; then
     zgen load robbyrussell/oh-my-zsh plugins/cabal
     zgen load robbyrussell/oh-my-zsh plugins/catimg
     zgen load robbyrussell/oh-my-zsh plugins/colorize
-    zgen load robbyrussell/oh-my-zsh plugins/command-not-found
-    zgen load robbyrussell/oh-my-zsh plugins/dircycle # doesn't work =(
     zgen load robbyrussell/oh-my-zsh plugins/scd
     zgen load robbyrussell/oh-my-zsh plugins/sudo
     #zgen load robbyrussell/oh-my-zsh plugins/thefuck
@@ -22,6 +20,8 @@ if ! zgen saved; then
     zgen load nojhan/liquidprompt
     zgen load chrissicool/zsh-256color
     zgen load zsh-users/zsh-completions src
+    zgen load supercrabtree/k
+    zgen load zsh-users/zsh-autosuggestions
 
     zgen save
 fi
@@ -54,11 +54,15 @@ bindkey '^[3;5~' delete-char
 
 bindkey '\e[1~' beginning-of-line
 bindkey '^[OH' beginning-of-line
+# What the fuck
 bindkey '^[[H' beginning-of-line
 
 bindkey '\e[4~' end-of-line
 bindkey '^[OF' end-of-line
 bindkey '^[[F' end-of-line
+
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey "${terminfo[kend]}" end-of-line
 
 # History
 HISTFILE=~/.zsh_history
@@ -136,13 +140,14 @@ fi
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress -r --"
 
 # Misc aliases
+alias git='time git'
+
 alias ls='ls -lahF --color=auto'
 alias ll='ls -lahF --color=auto'
 alias la='ls -lahF --color=auto'
 alias l='ls -lahF --color=auto'
 alias grep='grep --color=auto'
 alias sys='sudo systemctl'
-alias :q='exit'
 
 alias svim='sudo vim'
 alias spacman='sudo pacman'
@@ -151,10 +156,8 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
-# To rant about how slow (but still unimaginably useful) git*** is.
-alias git='time git'
+alias :q=exit
 
-# Add a hook to play this file on segfaults.
 segfault_hook () {
     if [ $? -eq 139 ]; then
         mpg123 -q ~/.zgen/Scheisssoeee.mp3
@@ -166,6 +169,3 @@ if [ -z ${precmd_functions+x} ]; then
 else
     precmd_functions+=(segfault_hook);
 fi
-
-# ssh keys
-eval $(keychain --eval --agents ssh -Q --quiet)
