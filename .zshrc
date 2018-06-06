@@ -171,3 +171,10 @@ if [ -z ${precmd_functions+x} ]; then
 else
     precmd_functions+=(segfault_hook);
 fi
+source /usr/share/nvm/init-nvm.sh
+
+if [ -z "$LD_LIBRARY_PATH" ]; then
+    export LD_LIBRARY_PATH=/usr/local/lib
+else
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+fi
