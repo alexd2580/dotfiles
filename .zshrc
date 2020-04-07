@@ -9,19 +9,20 @@ if ! zgen saved; then
     echo "Creating a zgen save"
 
     zgen load robbyrussell/oh-my-zsh plugins/colored-man-pages
-    zgen load robbyrussell/oh-my-zsh plugins/cabal
-    zgen load robbyrussell/oh-my-zsh plugins/catimg
+    # zgen load robbyrussell/oh-my-zsh plugins/cabal
+    # zgen load robbyrussell/oh-my-zsh plugins/catimg
     zgen load robbyrussell/oh-my-zsh plugins/colorize
     zgen load robbyrussell/oh-my-zsh plugins/scd
-    zgen load robbyrussell/oh-my-zsh plugins/sudo
-    #zgen load robbyrussell/oh-my-zsh plugins/thefuck
+    # zgen load robbyrussell/oh-my-zsh plugins/sudo
+    # zgen load robbyrussell/oh-my-zsh plugins/thefuck
     zgen load robbyrussell/oh-my-zsh plugins/zsh-navigation-tools
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load nojhan/liquidprompt
     zgen load chrissicool/zsh-256color
     zgen load zsh-users/zsh-completions src
-    zgen load supercrabtree/k
+    # zgen load supercrabtree/k
     zgen load zsh-users/zsh-autosuggestions
+    # zgen load softmoth/zsh-vim-mode
 
     zgen save
 fi
@@ -34,35 +35,30 @@ setopt nohashdirs           # disable hashing of dirs so we don't have to run
                             # rehash after installing new binaries (performance hit?)
 
 # Key stuff
-bindkey -e
+bindkey -v
+export KEYTIMEOUT=1
+
+function zle-line-init zle-keymap-select {
+    case $KEYMAP in
+        vicmd) printf '\033[0 q'; RPS1='%{%K{#444444}%}%{%B%}[-- NORMAL --]%{%b%}%{%k%}';;
+        viins|main) printf '\033[5 q'; RPS1='%{%K{#1010A0}%}%{%B%}[-- INSERT --]%{%b%}%{%k%}';;
+    esac
+    RPS2=$RPS1
+
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
 
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
 
-bindkey '^[OC' emacs-forward-word
-#bindkey '^[[C' emacs-forward-word
-bindkey '^[[1;5C' emacs-forward-word
-bindkey '^[[1;3C' emacs-forward-word
+# Compatibility with vim mode.
+bindkey -v '^[[3~' delete-char
+bindkey -v '^[3;5~' delete-char
 
-bindkey '^[OD' emacs-backward-word
-#bindkey '^[[D' emacs-backward-word
-bindkey '^[[1;5D' emacs-backward-word
-bindkey '^[[1;3D' emacs-backward-word
-
-bindkey '^[[3~' delete-char
-bindkey '^[3;5~' delete-char
-
-bindkey '\e[1~' beginning-of-line
-bindkey '^[OH' beginning-of-line
-# What the fuck
-bindkey '^[[H' beginning-of-line
-
-bindkey '\e[4~' end-of-line
-bindkey '^[OF' end-of-line
-bindkey '^[[F' end-of-line
-
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
+bindkey -v '^?' backward-delete-char
 
 # History
 HISTFILE=~/.zsh_history
@@ -140,12 +136,7 @@ fi
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress -r --"
 
 # Misc aliases
-alias git='time git'
-
-alias ls='ls -lahF --color=auto'
-alias ll='ls -lahF --color=auto'
 alias la='ls -lahF --color=auto'
-alias l='ls -lahF --color=auto'
 alias grep='grep --color=auto'
 alias sys='sudo systemctl'
 
@@ -160,17 +151,36 @@ alias :q=exit
 
 alias k='k --no-vcs -Ah'
 
+npm-run() {
+  $(npm bin)/$*
+}
+
 segfault_hook () {
     if [ $? -eq 139 ]; then
-        mpg123 -q ~/.zgen/Scheisssoeee.mp3
+        mpg123 -o pulse -q ~/.zgen/Scheisssoeee.mp3
     fi
 }
 
+title_hook () {
+    # Escape code for setting window title.
+    echo -en "\033]zsh: $1\007"
+}
+
+# enables CTRL-T and CTRL-R fuzzy stuff
+source /usr/share/fzf/key-bindings.zsh
+
 if [ -z ${precmd_functions+x} ]; then
-    precmd_functions=(segfault_hook);
+    precmd_functions=(segfault_hook title_hook);
 else
-    precmd_functions+=(segfault_hook);
+    precmd_functions+=(segfault_hook title_hook);
 fi
+
+if [ -z ${preexec_functions+x} ]; then
+    preexec_functions=(title_hook);
+else
+    preexec_functions+=(title_hook);
+fi
+
 source /usr/share/nvm/init-nvm.sh
 
 if [ -z "$LD_LIBRARY_PATH" ]; then
@@ -178,3 +188,5 @@ if [ -z "$LD_LIBRARY_PATH" ]; then
 else
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 fi
+
+export PATH="$PATH":"$(yarn global bin)":"$HOME/.poetry/bin":"$HOME/.config/nvim/utils"

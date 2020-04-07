@@ -117,7 +117,7 @@ set softtabstop=4           " Counts n spaces when DELETE or BCKSPCE is used.
 set autoindent              " Auto indents next new line.
 set smarttab                " Remember indent.
 
-autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
+" autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " Language settings.
@@ -234,6 +234,7 @@ let g:tagbar_type_typescript = {
 
 " ALE
 let g:ale_linters = {
+\   'c': ['gcc', 'clang'],
 \   'python': ['flake8', 'pyls'],
 \   'dart': ['language_server'],
 \   'rust': ['cargo', 'rls'],
@@ -244,11 +245,19 @@ let g:ale_fixers = {
 \   'dart': ['dartfmt'],
 \   'rust': ['rustfmt'],
 \   'java': ['google_java_format'],
+\   'javascript': ['prettier'],
+\   'json': ['jq'],
+\   'c': ['clang-format'],
+\   'cpp': ['clang-format'],
 \}
 " 'add_blank_lines_for_python_control_statements' may sound nice, but it too
 " strange.
 let g:ale_lint_on_text_changed = "never"
 let g:ale_cpp_clangtidy_checks = ['*', '-fuchsia-default-arguments*']
+" let g:ale_cpp_cpplint_options = ['-Iinclude']
+let g:ale_cpp_gcc_options = '-Iinclude'
+let g:ale_cpp_clang_options = '-Iinclude'
+" let g:ale_cpp_clang_check_options = ['-Iinclude']
 let g:ale_python_black_options = '--line-length 100 --py36'
 let g:ale_dart_dartfmt_executable = '/home/sascha/flutter/bin/cache/dart-sdk/bin/dartfmt'
 
@@ -273,3 +282,7 @@ let g:echodoc#enable_at_startup = 1
 " Disable netrw for good.
 let g:loaded_netrw       = 1
 let g:loaded_netrwPlugin = 1
+
+
+set exrc    " allows loading local executing local rc files. (project specific .vimrc)
+set secure  " disallows the use of :autocmd, shell and write commands in local .vimrc files.

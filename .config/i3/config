@@ -42,11 +42,15 @@ bindsym $mod+Shift+a focus child
 # bindsym $mod+space focus mode_toggle
 # shortcut reused for translator
 
-# move windows
+# Move windows
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+# Move workspaces.
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Right move workspace to output right
 
 # split the current container
 bindsym $mod+h split h
@@ -133,6 +137,8 @@ show_marks no
 ################################  DEFAULT   ####################################
 ################################ MY SECTION ####################################
 
+# for_window [title="VLC"] floating enable
+
 ### Additional modes
 
 # Currently not working.
@@ -176,8 +182,8 @@ bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5% -time 1
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5% -time 1
 
 # TRANSLATOR
-bindsym $mod+space exec --no-startup-id /home/sascha/.utils/translit/translateAll.sh
-bindsym $mod+del exec --no-startup-id /home/sascha/.utils/translit/translateSelection.sh
+bindsym $mod+space exec --no-startup-id /home/sascha/.utils/translit/scripts/translate.sh
+bindsym $mod+Delete exec --no-startup-id /home/sascha/.utils/translit/scripts/translate.sh selection
 
 # TRAYER
 # bindsym $mod+t exec /home/sascha/.utils/statorange/toggle_trayer.sh
