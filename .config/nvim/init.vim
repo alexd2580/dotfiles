@@ -20,11 +20,12 @@ Plug 'dart-lang/dart-vim-plugin'
 Plug 'othree/html5.vim'
 " Plug 'isRuslan/vim-es6'
 Plug 'leafgarland/typescript-vim'
-" Plug 'pangloss/vim-javascript'
+" Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
 Plug 'neoclide/vim-jsx-improve'
 Plug 'JulesWang/css.vim'
 Plug 'ianks/vim-tsx'
 Plug 'ap/vim-css-color'
+Plug 'posva/vim-vue'
 
 " - Other
 Plug 'pearofducks/ansible-vim'
@@ -120,6 +121,7 @@ set mouse=a                 " Mouse support.
 set splitbelow              " Splitting a window will put the new window below the current.
 set splitright              " Splitting a window will put the new window right of the current.
 set noshowmode              " Don't show `-- INSERT --`. Would conflict with echodoc.
+set nofoldenable            " Disable folding.
 
 " Indentation settings.
 set expandtab               " Insert spaces instead of tab chars.
@@ -185,15 +187,17 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " Flutter
-let g:flutter_command = '/home/sascha/flutter/bin/flutter'
-nnoremap <leader>fs :FlutterRun<cr>
-nnoremap <leader>fq :FlutterQuit<cr>
-nnoremap <leader>fr :FlutterHotReload<cr>
-nnoremap <leader>fR :FlutterHotRestart<cr>
+" let g:flutter_command = '/home/sascha/flutter/bin/flutter'
+" nnoremap <leader>fs :FlutterRun<cr>
+" nnoremap <leader>fq :FlutterQuit<cr>
+" nnoremap <leader>fr :FlutterHotReload<cr>
+" nnoremap <leader>fR :FlutterHotRestart<cr>
 
 " CtrlP
 " use mixed search per default
 let g:ctrlp_cmd = 'CtrlPMixed'
+" map search in directory to ctrl+o
+" nnoremap <C-o> :CtrlP<space>
 " set custom search command
 let g:ctrlp_user_command = 'ag %s --files-with-matches -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 
