@@ -1,8 +1,5 @@
 call plug#begin('~/.config/nvim/plug')
 
-" RTFM, ALE completion must be enabled before ALE itself.
-let g:ale_completion_enabled = 1
-
 " Languages
 " - Desktop
 Plug 'justinmk/vim-syntax-extra'
@@ -57,6 +54,9 @@ Plug 'tpope/vim-fugitive'
 " Plug 'mhinz/vim-sayonara'
 Plug 'tpope/vim-speeddating'
 Plug 'Shougo/echodoc.vim'
+Plug 'chrisbra/SudoEdit.vim'            " add :SudoWrite to save file with sudo
+Plug 'bronson/vim-visual-star-search'   " allow for searching by current visual seleciton
+Plug 'machakann/vim-highlightedyank'    " highlight what was just yanked
 
 " Flutter
 Plug 'thosakwe/vim-flutter'
@@ -79,13 +79,25 @@ Plug 'tacahiroy/ctrlp-funky'
 " I DONT KNOW WHAT THIS DOES BUT VIM.
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
-" Linter
-Plug 'w0rp/ale'
-" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-" Plug 'natebosch/vim-lsc'
+" LSC
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-java', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+Plug 'josa42/coc-go', {'do': 'yarn install --frozen-lockfile'}
+Plug 'josa42/coc-sh', {'do': 'yarn install --frozen-lockfile'}
+Plug 'voldikss/coc-cmake', {'do': 'yarn install --frozen-lockfile'}
+Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
+Plug 'fannheyward/coc-rust-analyzer', {'do': 'yarn install --frozen-lockfile'}
 
 call plug#end()
 
+" General.
 set title
 set updatetime=2000
 set t_Co=256                " Set 256 color.
@@ -117,7 +129,21 @@ set softtabstop=4           " Counts n spaces when DELETE or BCKSPCE is used.
 set autoindent              " Auto indents next new line.
 set smarttab                " Remember indent.
 
-" autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
+" Other.
+set exrc    " allows loading local executing local rc files. (project specific .vimrc)
+set secure  " disallows the use of :autocmd, shell and write commands in local .vimrc files.
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd FileType vue setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " Language settings.
@@ -149,8 +175,7 @@ nnoremap <F12> :bwipe<CR>
 set noswapfile
 
 " Remove trailing whitespaces.
-" http://vim.wikia.com/wiki/Remove_unwanted_spaces
-" Currently using :ALEFix as well, see ALE config section.
+" For reference see: http://vim.wikia.com/wiki/Remove_unwanted_spaces
 autocmd BufWritePre * %s/\s\+$//e
 
 " Airline
@@ -158,19 +183,6 @@ autocmd BufWritePre * %s/\s\+$//e
 let g:airline_powerline_fonts = 1
 " display all buffers
 let g:airline#extensions#tabline#enabled = 1
-
-" Autoformat (Using ALE atm)
-" noremap <leader>f :Autoformat<CR>
-" let g:autoformat_verbosemode=1
-" " Disable fallback to vim defaults
-" let g:autoformat_autoindent = 0
-" let g:autoformat_retab = 0
-" let g:autoformat_remove_trailing_spaces = 0
-" " Define formatter tool commands.
-" let g:formatdef_clangformat = "'clang-format'"
-" " Map file types to formatters.
-" let g:formatters_opencl = ['clangformat']
-" let g:formatters_glsl = ['clangformat']
 
 " Flutter
 let g:flutter_command = '/home/sascha/flutter/bin/flutter'
@@ -182,8 +194,6 @@ nnoremap <leader>fR :FlutterHotRestart<cr>
 " CtrlP
 " use mixed search per default
 let g:ctrlp_cmd = 'CtrlPMixed'
-" map search in directory to ctrl+o
-" nnoremap <C-o> :CtrlP<space>
 " set custom search command
 let g:ctrlp_user_command = 'ag %s --files-with-matches -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 
@@ -232,57 +242,48 @@ let g:tagbar_type_typescript = {
     \]
 \}
 
-" ALE
-let g:ale_linters = {
-\   'c': ['gcc', 'clang'],
-\   'python': ['flake8', 'pyls'],
-\   'dart': ['language_server'],
-\   'rust': ['cargo', 'rls'],
-\}
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'python': ['black', 'isort'],
-\   'dart': ['dartfmt'],
-\   'rust': ['rustfmt'],
-\   'java': ['google_java_format'],
-\   'javascript': ['prettier'],
-\   'json': ['jq'],
-\   'c': ['clang-format'],
-\   'cpp': ['clang-format'],
-\}
-" 'add_blank_lines_for_python_control_statements' may sound nice, but it too
-" strange.
-let g:ale_lint_on_text_changed = "never"
-let g:ale_cpp_clangtidy_checks = ['*', '-fuchsia-default-arguments*']
-" let g:ale_cpp_cpplint_options = ['-Iinclude']
-let g:ale_cpp_gcc_options = '-Iinclude'
-let g:ale_cpp_clang_options = '-Iinclude'
-" let g:ale_cpp_clang_check_options = ['-Iinclude']
-let g:ale_python_black_options = '--line-length 100 --py36'
-let g:ale_dart_dartfmt_executable = '/home/sascha/flutter/bin/cache/dart-sdk/bin/dartfmt'
-
-noremap <leader>f :ALEFix<CR>
-noremap <F1> :ALEHover<CR>
-
 set completeopt=menu,menuone,preview,noselect,noinsert
 let g:echodoc#enable_at_startup = 1
-
-" " COC
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-
-" let g:lsc_server_commands = {'dart': '/home/sascha/flutter/bin/cache/dart-sdk/bin/dart /home/sascha/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot --lsp'}
-" let g:lsc_auto_map = v:true " Use defaults
-
-" Tsuquyomi
-" let g:tsuquyomi_shortest_import_path = 1 " Relative import paths.
+let g:echodoc#type = 'virtual'
 
 " Disable netrw for good.
 let g:loaded_netrw       = 1
 let g:loaded_netrwPlugin = 1
 
+" COC
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
-set exrc    " allows loading local executing local rc files. (project specific .vimrc)
-set secure  " disallows the use of :autocmd, shell and write commands in local .vimrc files.
+" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" " position. Coc only does snippet and additional edit on confirm.
+" " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+" if exists('*complete_info')
+"   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+" else
+"   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format)
+nmap <leader>f  <Plug>(coc-format)
+
+autocmd BufWritePre *
+    \ CocAction(format)
+    \ CocAction(sortImports)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
