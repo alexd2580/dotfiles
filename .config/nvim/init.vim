@@ -1,129 +1,42 @@
-call plug#begin('~/.config/nvim/plug')
+" Disable these providers?
+" TODO What does this actually do other than silence the checkhealth warnings?
+let g:loaded_ruby_provider = 0
+let g:loaded_node_provider = 0
+let g:loaded_perl_provider = 0
 
-" Languages
-" - Desktop
-Plug 'justinmk/vim-syntax-extra'
-Plug 'vim-jp/vim-cpp'
-Plug 'octol/vim-cpp-enhanced-highlight'
 
-Plug 'tikhomirov/vim-glsl'
-Plug 'rust-lang/rust.vim'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'ElmCast/elm-vim'
-" Plug 'mitsuhiko/vim-python-combined'
-Plug 'vim-python/python-syntax'
-
-" - Mobile
-Plug 'dart-lang/dart-vim-plugin'
-
-" - Frontend
-Plug 'othree/html5.vim'
-" Plug 'isRuslan/vim-es6'
-Plug 'leafgarland/typescript-vim'
-" Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
-Plug 'neoclide/vim-jsx-improve'
-Plug 'JulesWang/css.vim'
-Plug 'ianks/vim-tsx'
-Plug 'ap/vim-css-color'
-Plug 'posva/vim-vue'
-
-" - Other
-Plug 'pearofducks/ansible-vim'
-Plug 'cespare/vim-toml'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'tpope/vim-git'
-Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'sheerun/vim-json'
-Plug 'kurayama/systemd-vim-syntax'
-
-" Beauty
-Plug 'bling/vim-airline'
-Plug 'flazz/vim-colorschemes'
-Plug 'luochen1990/rainbow'
-Plug 'Valloric/MatchTagAlways'
-
-" Utils
-" Plug 'Chiel92/vim-autoformat'
-Plug 'tomtom/tcomment_vim'
-Plug 'majutsushi/tagbar'        " ctags explorer
-Plug 'tpope/vim-repeat'         " Remap . for plugins
-Plug 'tpope/vim-surround'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'dyng/ctrlsf.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-" Plug 'mhinz/vim-sayonara'
-Plug 'tpope/vim-speeddating'
-Plug 'Shougo/echodoc.vim'
-Plug 'chrisbra/SudoEdit.vim'            " add :SudoWrite to save file with sudo
-Plug 'bronson/vim-visual-star-search'   " allow for searching by current visual seleciton
-Plug 'machakann/vim-highlightedyank'    " highlight what was just yanked
-
-" Flutter
-Plug 'thosakwe/vim-flutter'
-
-" Fuzzy file finder
-" https://github.com/ctrlpvim/ctrlp.vim
-Plug 'ctrlpvim/ctrlp.vim'
-
-" CtrlP matcher (enhancer)
-" Execute manually: PY3=ON ./install.sh
-" Requires packages:
-" ag, the_silver_searcher, python-neovim
-" https://github.com/nixprime/cpsm
-Plug 'svenstaro/cpsm', { 'do': './install.sh' }
-
-" Function navigator for ctrlp
-" https://github.com/tacahiroy/ctrlp-funky
-Plug 'tacahiroy/ctrlp-funky'
-
-" I DONT KNOW WHAT THIS DOES BUT VIM.
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-
-" LSC
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-java', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-Plug 'josa42/coc-go', {'do': 'yarn install --frozen-lockfile'}
-Plug 'josa42/coc-sh', {'do': 'yarn install --frozen-lockfile'}
-Plug 'voldikss/coc-cmake', {'do': 'yarn install --frozen-lockfile'}
-Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
-Plug 'fannheyward/coc-rust-analyzer', {'do': 'yarn install --frozen-lockfile'}
-
-call plug#end()
-
-" General.
+" Visual.
+set shortmess+=I            " Disable the welcome screen: https://neovim.io/doc/user/options.html#'shortmess'
 set title
-set updatetime=2000
-set t_Co=256                " Set 256 color.
-colorscheme gruvbox         " Define syntax color scheme.
-set background=dark         " Adjust vim for dark colors.
-set cursorline              " Show current cursor line.
-set cursorcolumn            " Show current cursor column.
-set number                  " Show line numbers.
-set clipboard+=unnamedplus  " Yank and copy to X clipboard.
-set shortmess+=I            " Disable the welcome screen.
-let mapleader = ","         " Map leader to ,
-set backspace=2             " Full backspacing capabilities.
-set hidden                  " Enable buffer switching without saving.
-set ww=<,>,[,]              " Whichwrap -- left/right keys can traverse up/down.
-set scrolloff=5             " Keep 4 lines spacing between cursor and edge.
+set cursorline              " Draw crosshair X.
+set cursorcolumn            " Draw crosshair Y.
 set list                    " Show invis characters (out of place chars?).
-set ignorecase              " Case-insensitive search.
-set smartcase               " Upper-case sensitive search.
-set mouse=a                 " Mouse support.
-set splitbelow              " Splitting a window will put the new window below the current.
-set splitright              " Splitting a window will put the new window right of the current.
 set noshowmode              " Don't show `-- INSERT --`. Would conflict with echodoc.
 set nofoldenable            " Disable folding.
+set winblend=13             " Fake window transparency. Looks nice.
 
-" Indentation settings.
+" Sidebar.
+" TODO Relevant?
+" Always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
+set number                  " Show line numbers.
+set signcolumn=yes          " Show extra signs column. Conflicts with gitgutter.
+
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+
+" Behavior.
+set scrolloff=5             " Keep 4 lines spacing between cursor and edge.
+set updatetime=750          " Lower updatetime might lead to glitches: https://www.reddit.com/r/vim/comments/3ql651/what_do_you_set_your_updatetime_to/
+set clipboard=unnamedplus   " Yank and copy to X clipboard.
+set ignorecase              " Case-insensitive search.
+set smartcase               " Upper-case sensitive search.
+set noswapfile              " Don't create a swap file.
+
+" Remove trailing whitespaces:
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces
+autocmd BufWritePre * %s/\s\+$//e
+
+" Indentation.
 set expandtab               " Insert spaces instead of tab chars.
 set tabstop=4               " A n-space tab width.
 set shiftwidth=4            " Allows the use of < and > for VISUAL indenting.
@@ -131,163 +44,271 @@ set softtabstop=4           " Counts n spaces when DELETE or BCKSPCE is used.
 set autoindent              " Auto indents next new line.
 set smarttab                " Remember indent.
 
-" Other.
-set exrc    " allows loading local executing local rc files. (project specific .vimrc)
-set secure  " disallows the use of :autocmd, shell and write commands in local .vimrc files.
+autocmd BufNewFile,BufRead *.mts set ft=typescript
+autocmd BufNewFile,BufRead *.comp set ft=glsl
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
-
+autocmd FileType typescript setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType vue setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd FileType json syntax match Comment +\/\/.\+$+
+autocmd FileType jinja.html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd FileType haskell setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
-" Language settings.
-" Highlight non-jsx files.
-let g:vim_jsx_pretty_colorful_config = 1
+" Disable netrw for good.
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
-" Don't use the default keybindings.
-let g:elm_setup_keybindings = 0
+" Controls.
+set backspace=2             " https://neovim.io/doc/user/options.html#'backspace'
+set mouse=a                 " Full mouse support.
 
-" Enable Rainbow.
-let g:rainbow_active = 1
-autocmd VimEnter * RainbowToggle
+" Disable arrow keys!
+noremap <Left> <nop>
+noremap <Right> <nop>
+noremap <Up> <nop>
+noremap <Down> <nop>
 
-" Additional C++ highlights.
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-let g:cpp_concepts_highlight = 1
+
+" Bindings.
+let mapleader = ","
 
 " Turn off search highlight.
 nnoremap <leader><space> :nohlsearch<CR>
 
 nnoremap <C-PageUp> :bp<CR>
 nnoremap <C-PageDown> :bn<CR>
-nnoremap <F12> :bwipe<CR>
 
-" Don't create a swap file.
-set noswapfile
 
-" Remove trailing whitespaces.
-" For reference see: http://vim.wikia.com/wiki/Remove_unwanted_spaces
-autocmd BufWritePre * %s/\s\+$//e
+" Plugins.
+call plug#begin('~/.config/nvim/plug')
 
-" Airline
-" Enable powerline.
+" Beauty.
+Plug 'tiagovla/tokyodark.nvim'
+
+Plug 'bling/vim-airline'
 let g:airline_powerline_fonts = 1
-" display all buffers
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1    " Display all buffers.
 
-" Flutter
-" let g:flutter_command = '/home/sascha/flutter/bin/flutter'
-" nnoremap <leader>fs :FlutterRun<cr>
-" nnoremap <leader>fq :FlutterQuit<cr>
-" nnoremap <leader>fr :FlutterHotReload<cr>
-" nnoremap <leader>fR :FlutterHotRestart<cr>
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1
+autocmd VimEnter * RainbowToggle
 
-" CtrlP
-" use mixed search per default
+" Conflict with rainbow on xml?
+Plug 'Valloric/MatchTagAlways'
+
+
+" Launcher.
+Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_cmd = 'CtrlPMixed'
-" map search in directory to ctrl+o
-" nnoremap <C-o> :CtrlP<space>
-" set custom search command
 let g:ctrlp_user_command = 'ag %s --files-with-matches -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 
-" cpsm
-let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+Plug 'nixprime/cpsm', { 'do': './install.sh' }
+let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
 let g:ctrlp_use_caching = 0
 
-let g:python_host_prog = '/usr/bin/python2'
-let g:python3_host_prog = '/usr/bin/python3'
-
-" ctrlp-funky
-" map funky to ctrl+l
-" nnoremap <C-l> :CtrlPFunky<cr>
+Plug 'tacahiroy/ctrlp-funky'
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_syntax_highlight = 1
+nnoremap <C-l> :CtrlPFunky<CR>
 
-" ctrlsf
-nmap <C-k> <Plug>CtrlSFPrompt
 
-" Tagbar
-nnoremap <F8> :TagbarToggle<CR>
-let g:tagbar_type_rust = {
-    \'ctagstype' : 'rust',
-    \'kinds' : [
-        \'T:types,type definitions',
-        \'f:functions,function definitions',
-        \'g:enum,enumeration names',
-        \'s:structure names',
-        \'m:modules,module names',
-        \'c:consts,static constants',
-        \'t:traits,traits',
-        \'i:impls,trait implementations',
-    \]
-\}
-let g:tagbar_type_typescript = {
-    \'ctagstype': 'typescript',
-    \'kinds': [
-        \'c:classes',
-        \'n:modules',
-        \'f:functions',
-        \'v:variables',
-        \'v:varlambdas',
-        \'m:members',
-        \'i:interfaces',
-        \'e:enums',
-    \]
-\}
+" Search.
+Plug 'dyng/ctrlsf.vim'
+let g:ctrlsf_auto_focus = { "at": "start" }
+nnoremap <C-k> <Plug>CtrlSFPrompt
 
-set completeopt=menu,menuone,preview,noselect,noinsert
+
+" Utils.
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+Plug 'bronson/vim-visual-star-search'           " Allow for searching by current visual selection.
+Plug 'machakann/vim-highlightedyank'            " Highlight what was just yanked.
+Plug 'terryma/vim-multiple-cursors'
+
+" Git tools.
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+Plug 'Shougo/echodoc.vim'
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'virtual'
 
-" Disable netrw for good.
-let g:loaded_netrw       = 1
-let g:loaded_netrwPlugin = 1
+Plug 'famiu/bufdelete.nvim'
+nnoremap <F12> :Bdelete<CR>
 
-" COC
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
 
-" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" " position. Coc only does snippet and additional edit on confirm.
-" " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-" if exists('*complete_info')
-"   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-" else
-"   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" endif
+" Language support.
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'neovim/nvim-lspconfig'
 
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format)
-nmap <leader>f  <Plug>(coc-format)
+" Autocomplete.
+Plug 'hrsh7th/cmp-nvim-lsp'                     " From LSC.
+Plug 'hrsh7th/cmp-buffer'                       " From buffer?
+Plug 'hrsh7th/cmp-path'                         " From local path
+Plug 'hrsh7th/cmp-cmdline'                      " From command line?
+Plug 'hrsh7th/nvim-cmp'                         " Actual plugin.
+Plug 'hrsh7th/cmp-vsnip'                        " ??
+Plug 'hrsh7th/vim-vsnip'                        " ??
 
-autocmd BufWritePre *
-    \ CocAction(format)
-    \ CocAction(sortImports)
+call plug#end()
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+colorscheme tokyodark
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+lua <<EOF
+  -- Initialize treesitter.
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = "all",
+    -- Ignore php (builds slowly).
+    ignore_install = { "phpdoc" },
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true
+    }
+  }
 
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' },
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  -- cmp.setup.filetype('gitcommit', {
+  --   sources = cmp.config.sources({
+  --     { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+  --   }, {
+  --     { name = 'buffer' },
+  --   })
+  -- })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  -- cmp.setup.cmdline('/', {
+  --   mapping = cmp.mapping.preset.cmdline(),
+  --   sources = {
+  --     { name = 'buffer' }
+  --   }
+  -- })
+  --
+  -- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  -- cmp.setup.cmdline(':', {
+  --   mapping = cmp.mapping.preset.cmdline(),
+  --   sources = cmp.config.sources({
+  --     { name = 'path' }
+  --   }, {
+  --     { name = 'cmdline' }
+  --   })
+  -- })
+
+  -- Glue between autocomplete and lsp client.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+  -- Initialize lsp clients. Servers must be installed manually!
+  -- TODO launch servers in isolated environments based on current filetype?
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ghcide
+  require'lspconfig'.pyright.setup{capabilities = capabilities}
+  require'lspconfig'.hls.setup{capabilities = capabilities}
+  require'lspconfig'.dockerls.setup{capabilities = capabilities}
+  require'lspconfig'.vuels.setup{capabilities = capabilities}
+  require'lspconfig'.jsonls.setup{capabilities = capabilities, cmd = {"vscode-json-languageserver", "--stdio"}}
+  require'lspconfig'.tsserver.setup{capabilities = capabilities}
+  require'lspconfig'.ltex.setup{capabilities = capabilities}
+  require'lspconfig'.bashls.setup{capabilities = capabilities} -- Install shellcheck.
+  require'lspconfig'.clangd.setup{capabilities = capabilities}
+  require'lspconfig'.cmake.setup{capabilities = capabilities}
+  require'lspconfig'.vimls.setup{capabilities = capabilities}
+  require'lspconfig'.yamlls.setup{capabilities = capabilities}
+  require'lspconfig'.html.setup{capabilities = capabilities, cmd = {"vscode-html-languageserver", "--stdio"}}
+  require'lspconfig'.rust_analyzer.setup{capabilities = capabilities, cmd = {"rustup", "run", "nightly", "rust-analyzer"}}
+  -- require'lspconfig'.glslls.setup{capabilities = capabilities}
+EOF
+
+nnoremap [g :lua vim.diagnostic.goto_prev()<CR>
+nnoremap ]g :lua vim.diagnostic.goto_next()<CR>
+
+nnoremap <silent> <leader>e :lua vim.diagnostic.open_float()<CR>     " Open floating window above diagnostic.
+nnoremap <silent> <leader>q :lua vim.diagnostic.setloclist()<CR>     " Open trayer with all diagnostics.
+
+nnoremap gt :lua vim.lsp.buf.type_definition()<CR>
+nnoremap gD :lua vim.lsp.buf.declaration()<CR>
+nnoremap gd :lua vim.lsp.buf.definition()<CR>
+nnoremap gi :lua vim.lsp.buf.implementation()<CR>
+nnoremap gr :lua vim.lsp.buf.references()<CR>
+
+nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>ca :lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>f :lua vim.lsp.buf.format()<CR>
+
+nnoremap <leader>h :lua vim.lsp.buf.hover()<CR>             " TODO autoshow on hover?
+nnoremap <leader>s :lua vim.lsp.buf.signature_help()<CR>    " What does this do?
+
+nnoremap <leader>wa :lua vim.lsp.buf.add_workspace_folder()<CR>
+nnoremap <leader>wr :lua vim.lsp.buf.remove_workspace_folder()<CR>
+
+" Show only first line of diagnostic in virtual text.
+lua <<EOF
+  format_diagnostic = function(diagnostic)
+    return diagnostic.message:gmatch('[^\n]+')()
+  end
+  vim.diagnostic.config({
+      virtual_text = { format = format_diagnostic },
+      update_in_insert = true
+  })
+EOF
+
+" -- Enable completion triggered by <c-x><c-o>
+" -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+"
+" -- vim.keymap.set('n', '<space>wl', function()
+" -- print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+" -- end, opts)
+
+" Local settings.
+" lua <<EOF
+"   local nvim_lsp = require('lspconfig')
+"
+"   nvim_lsp.pyright.setup {
+"     on_init = function(client)
+"       local path = client.workspace_folders[1].name
+"
+"       if path == '/home/sascha/code/shortform/backend' then
+"         client.config.settings["pyright"].checkOnSave.overrideCommand = { "cargo", "check" }
+"       end
+"
+"       client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+"       return true
+"     end
+"     -- NOTE: you must spell out the config you wanna change in `on_init` inside `settings`.
+"     settings = {
+"       checkOnSave = { overrideCommand = {} } -- here
+"     }
+"   }
+" EOF
