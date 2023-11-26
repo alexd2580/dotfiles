@@ -79,16 +79,7 @@ setopt extended_history     # special history format with timestamp
 setopt no_hist_beep         # fucking beep
 setopt hist_ignore_space    # ignore entries with leading space
 
-# Correction
-setopt correct              # spelling correction for commands
-setopt correctall           # spelling correction for arguments
-
-# list contents of directories in a tree-like format
-if [ -z "\${which tree}" ]; then
-  tree () {
-      find $@ -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
-  }
-fi
+zstyle ':autocomplete:*' widget-style menu-complete
 
 # Misc aliases
 alias ls=lsd
@@ -102,11 +93,31 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
-# enables CTRL-T and CTRL-R fuzzy stuff
+# Enable CTRL-T and CTRL-R fuzzy stuff.
 source /usr/share/fzf/key-bindings.zsh
 
-source /usr/share/nvm/init-nvm.sh
+# NVM
+lazynvm() {
+  unset -f nvm node npm
+  source /usr/share/nvm/init-nvm.sh
+}
 
+nvm() {
+  lazynvm
+  nvm $@
+}
+
+node() {
+  lazynvm
+  node $@
+}
+
+npm() {
+  lazynvm
+  npm $@
+}
+
+# Play audio on segfault.
 segfault_hook () {
     if [ $? -eq 139 ]; then
         mpg123 -o pulse -q ~/.zgen/Scheisssoeee.mp3
@@ -119,8 +130,8 @@ else
     precmd_functions+=(segfault_hook title_hook);
 fi
 
+# Change window title using escape code.
 title_hook () {
-    # Escape code for setting window title.
     echo -en "\033]zsh: $1\007"
 }
 
@@ -130,10 +141,11 @@ else
     preexec_functions+=(title_hook);
 fi
 
+# Do i need this?
 if [ -z "$LD_LIBRARY_PATH" ]; then
     export LD_LIBRARY_PATH=/usr/local/lib
 else
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 fi
 
-export PATH="$PATH":"$(yarn global bin)":"$HOME/.config/nvim/utils":"$HOME/.local/bin":"$HOME/.ghcup/bin":"$HOME/.cabal/bin"
+export PATH="$PATH":"$HOME/.local/bin":"$HOME/.ghcup/bin":"$HOME/.cabal/bin"

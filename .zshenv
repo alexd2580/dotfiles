@@ -1,6 +1,5 @@
 export ANSIBLE_NOCOWS=1
 export EDITOR=vim
-export BROWSER=chromium
 export LANG=en_US.UTF-8
 export LC_COLLATE=en_US.UTF-8
 export LC_TIME=de_DE.UTF-8
